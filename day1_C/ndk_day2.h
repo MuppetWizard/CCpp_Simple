@@ -28,3 +28,9 @@ extern void inputOutput();
 extern void fileEdit();
 //预处理器
 extern void preprocessor();
+//异常处理
+extern void exceptionHandle();
+//递归
+extern void recursion();
+//可变参数
+extern void variableParams();

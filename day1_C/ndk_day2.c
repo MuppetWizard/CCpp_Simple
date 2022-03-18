@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 
 void getSeconds(unsigned long *par);
@@ -307,6 +308,99 @@ void preprocessor(){
     printf("Line :%d\n", __LINE__);
     //当编译器以 ANSI 标准编译时，则定义为 1。
     printf("ANSI :%d\n", __STDC__);
+}
+
+//错误异常处理
+void exceptionHandle() {
+    int dividend = 20;
+    int divsor = 10; // int divsor = 0;
+    int quotient;
+
+    if (divsor == 0) {
+        fprintf(stderr, "除数为 0 退出运行。。。\n");
+        exit(EXIT_FAILURE);
+    }
+    quotient = dividend / divsor;
+    fprintf(stderr, "quotient 变量的值为 : %d\n", quotient);
+}
+
+//递归
+double factorial(unsigned int i);
+double factorial(unsigned int i){
+    if (i <= 1){
+        return 1;
+    }
+    return i * factorial(i - 1);
+}
+//斐波拉契数列
+int fibonaci(int i){
+    if (i == 0){
+        return 0;
+    }
+    if (i == 1){
+        return 1;
+    }
+    return fibonaci(i - 1) + fibonaci( i -2);
+}
+void recursion(){
+    int i = 15;
+    printf("%d 的阶乘 %ld \n",i ,factorial(i));
+    for (int j = 0; j < 10; j++) {
+        printf("%d\t\n", fibonaci(j));
+    }
+}
+
+//可变参数
+double average(int num,...){
+    va_list  vaList;
+    double  sum = 0.0;
+    int i ;
+    //为 num 个参数初始化 valist
+    va_start(vaList,num);
+    //访问所有赋给 vaList 的参数
+    for (int j = 0; j < num; j++) {
+        sum += va_arg(vaList, int);
+    }
+    //清理为valist 保留的内存
+    va_end(vaList);
+    return sum/num;
+}
+void variableParams(){
+    printf("Average of 2, 3, 4, 5 = %f\n", average(4, 2,3,4,5));
+    printf("Average of 5, 10, 15 = %f\n", average(3, 5,10,15));
+}
+
+//动态内存分配
+void memoryManager(){
+    char name[100];
+    char *description;
+
+    //将字符串 copy 到 name 中
+    strcpy(name, "迎娶白富美！");
+
+    //开始动态分配内存
+    description = (char *) malloc(200 * sizeof(char));
+    if (description == NULL) {
+        fprintf(stderr, "Error - unable to allocate required memory\n");
+    } else {
+        strcpy(description, "开始添加数据到 description 中");
+    }
+    printf("Name = %s\n", name );
+    printf("Description: %s sizeOf 大小 ：%d\n", description , sizeof(description));
+//     使用 free() 函数释放内存
+    free(description);
+
+}
+
+//命令行参数。徐使用main()函数来进行处理，argc指传入参数个数，argv[]是一个指针数组，指向传递给程序的每个参数。
+void commandLineArg(int argc,int * argv[]){
+    if (argc == 1) {
+        printf("argv[%d] == %d",0,*argv[0]);
+    } else if (argc == 2) {
+        printf("argv[%d] == %d",1,*argv[1]);
+    } else{
+        printf("匹配失败...");
+    }
 }
 
 
