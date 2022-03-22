@@ -4,19 +4,29 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <fstream>
 #include "day2.h"
-#include "person.h"
+//#include "person.h" //坑爹啊
+#include "spiderMan.h"
+#include <pthread.h>
+
+//定义一个线程数量宏
+#define NUM_THREADS 5
 
 //空间命名
-
-
 using namespace std;
 
 int main(){
     test1();
 //    referenceTest();
 //    ioTest();
-    personTest();
+//    personTest();
+//    test3();
+//test4();
+//test5();
+//test6();
+//test7();
+threadTest();
     return 0;
 }
 
@@ -311,6 +321,107 @@ void dataStructure(){
 }
 void movieInfo(Movie * movie){
     cout << movie ->tittle << "\t" << movie->address << endl;
+}
+
+//指向类的指针
+void test3(){
+    Person mPerson("Lily","female",20);
+    Person *ptrPerson;
+//    ptrPerson = new Person("Lily","female",20);
+//    ptrPerson = new Person();
+    ptrPerson = &mPerson;
+    cout << ptrPerson -> getName() << "\t" << ptrPerson -> getGen() << "\t" << ptrPerson -> getAge() << "\n" << endl;
+}
+
+//静态成员
+void test4(){
+
+    // 在创建对象之前输出对象的总数
+    cout << "Initial Stage Count: " << Person::getCount() << endl;
+
+    Person person1("Lily","female",20);
+    Person person2("Julia","female",18);
+    Person person3("Alex","male",18);
+    // 输出对象的总数
+    cout << "Total objects: " << Person::getCount() << endl;
+}
+
+// 继承
+void test5(){
+    SpiderMan *spiderMan = new SpiderMan();
+//    spiderMan->setName("MJ");
+    spiderMan -> spiderSilk();
+    spiderMan -> spiderSense();
+    //多态，重写父类方法
+    //获取子类数据
+    int test = spiderMan->test();
+    cout << "test->\t" << test << endl;
+}
+
+//文件和牛
+void test6(){
+    char data[100];
+    //ofsteam 用于创建文件并写入
+    ofstream outFile;
+    outFile.open("D:/CLionProjects/NDK_Simple/CppSimple.md");
+    cout << "Please enter something: "<< endl;
+    cin.getline(data,100);
+    //向文件写入数据
+    outFile << data << endl;
+
+    cin.ignore();
+//    关闭输出文件流；
+    outFile.close();
+
+    cout << "\n\n" << endl;
+    char readData[100];
+    //读文件
+    ifstream readFile;
+    readFile.open("D:/CLionProjects/NDK_Simple/CppSimple.md");
+    readFile.getline(readData,100);
+    cout << "Read File Success: \n" << readData << endl;
+    readFile.close();
+}
+
+//dynamic memory allocation
+void test7(){
+    //初始化为 NULL　指针
+    double *pvalue = NULL;
+    //申请内存并创建对象
+    pvalue = new double;
+    //save value in address
+    *pvalue = 3.1415926535;
+    cout << "pvalue Address: " << pvalue << "\npvalue Value: " << *pvalue << endl;
+    //release memory
+    delete pvalue;
+
+    //数组的动态内存分配
+    //动态分配，数组长度为 10
+    int *array = new int[10];
+    //释放数组内存
+    delete[] array;
+
+    //对象的动态内存分配
+    Person *testBox = new Person[10];
+    delete[] testBox;
+}
+
+//多线程
+void *logD(void *args){
+    int threadID = *((int*)args);
+    cout << "thread is running "<< threadID << endl;
+}
+void threadTest(){
+    pthread_t tids[NUM_THREADS];
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        //参数依次是：创建的线程 id,线程参数，调用的函数，传入的参数函数
+        int ptc = pthread_create(&tids[i],NULL,logD,(void*)&(i));
+        if (ptc != 0){
+            cout << "pthread_create error:error code ：" << ptc << endl;
+        }
+    }
+    //线程执行完毕退出
+    pthread_exit(NULL);
 }
 
 

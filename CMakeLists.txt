@@ -9,4 +9,9 @@ add_executable(NDK_Simple
         day1_C/support.c
         day1_C/ndk_day2.c
         day1_C/ndk_day2.h
-        day2_Cpp/day2.cpp day2_Cpp/day2.h day2_Cpp/person.h day2_Cpp/person.cpp)
+        day2_Cpp/day2.cpp
+        day2_Cpp/day2.h
+        day2_Cpp/person.h
+        day2_Cpp/person.cpp
+        day2_Cpp/spiderMan.cpp
+        day2_Cpp/spiderMan.h)

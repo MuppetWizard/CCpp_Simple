@@ -6,10 +6,14 @@
 
 using namespace std;
 
+//需在外部初始化静态变量
+int Person::objectCount = 0;
+
 Person::Person(char *name, char *gen, int age) {
-    this->name = name;
+    this -> name = name;
     this -> age = age;
     this -> gen = gen;
+    Person::objectCount++;
 }
 
 Person::~Person() {
@@ -18,6 +22,11 @@ Person::~Person() {
 
 Person::Person() {
     cout << "Person is Running" << endl;
+    Person::objectCount++;
+}
+
+int Person::getCount(){
+    return Person::objectCount;
 }
 
 char * Person::getName() {
